@@ -16,21 +16,12 @@
         android:layout_gravity="bottom"
         android:layout_marginBottom="20dp">
 
-        <TextView
+        <com.example.dmitry.testviewpager.OutlinedTextView
             android:id="@+id/show"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:background="@android:color/transparent"
-            android:gravity="center"
-            android:textColor="@android:color/black"
-            android:textSize="28sp" />
-
-        <TextView
-            android:id="@+id/hide"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:gravity="center"
             android:textColor="@android:color/black"
             android:textSize="28sp" />
     </FrameLayout>

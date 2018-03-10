@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager mPager;
 
-    private TextView mShow;
-
-    private TextView mHide;
+    private OutlinedTextView mShow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             texts.add(entry.getValue());
         }
         mShow = findViewById(R.id.show);
-        mHide = findViewById(R.id.hide);
+        mShow.setTextSize(24);
         mPager = findViewById(R.id.pager);
         PagerAdapter adapter = new PagerAdapter(this, ids);
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -63,20 +60,20 @@ public class MainActivity extends AppCompatActivity {
                 }
                 float showAlpha = right ? 1.0f - positionOffset : positionOffset;
                 float hideAlpha = right ? positionOffset : 1.0f - positionOffset;
-                mShow.setAlpha(showAlpha);
-                mHide.setAlpha(hideAlpha);
+                mShow.setInAlpha(showAlpha);
+                mShow.setOutAlpha(hideAlpha);
+                //                mHide.setAlpha(hideAlpha);
                 if (newPosition < texts.size()) {
-                    mHide.setText(texts.get(newPosition));
+                    mShow.setOutText(texts.get(newPosition));
                 }
             }
 
             @Override
             public void onPageSelected(int position) {
-                mHide.setAlpha(0.0f);
-                mHide.setText("");
-                mHide.setAlpha(1.0f);
-                mShow.setText(texts.get(position));
-                mShow.setAlpha(1.0f);
+                mShow.setInAlpha(1);
+                mShow.setOutAlpha(0);
+                mShow.setOutText("");
+                mShow.setInText(texts.get(position));
             }
 
             @Override
@@ -84,9 +81,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mPager.setAdapter(adapter);
-        mShow.setText(texts.get(mPager.getCurrentItem()));
+        mShow.setInText(texts.get(mPager.getCurrentItem()));
         int position = mPager.getCurrentItem() == texts.size() - 1 ? texts.size() : mPager.getCurrentItem() + 1;
-        mHide.setText(texts.get(position));
+        mShow.setOutText(texts.get(position));
+        //        mShow.set(texts.get(position));
     }
 
     public static class PagerAdapter extends android.support.v4.view.PagerAdapter {
