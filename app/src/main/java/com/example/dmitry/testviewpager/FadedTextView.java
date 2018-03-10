@@ -11,7 +11,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 
-public class OutlinedTextView extends View {
+public class FadedTextView extends View {
     private String mOutText;
 
     private TextPaint mInTextPaint;
@@ -26,17 +26,17 @@ public class OutlinedTextView extends View {
 
     private int mWidth = -1;
 
-    public OutlinedTextView(Context context) {
+    public FadedTextView(Context context) {
         super(context);
         initLabelView();
     }
 
-    public OutlinedTextView(Context context, AttributeSet attrs) {
+    public FadedTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initLabelView();
     }
 
-    public OutlinedTextView(Context context, AttributeSet attrs, int defStyle) {
+    public FadedTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initLabelView();
     }

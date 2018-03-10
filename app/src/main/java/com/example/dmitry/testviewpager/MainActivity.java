@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager mPager;
 
-    private OutlinedTextView mShow;
+    private FadedTextView mShow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
                 float hideAlpha = right ? positionOffset : 1.0f - positionOffset;
                 mShow.setInAlpha(showAlpha);
                 mShow.setOutAlpha(hideAlpha);
-                //                mHide.setAlpha(hideAlpha);
                 if (newPosition < texts.size()) {
                     mShow.setOutText(texts.get(newPosition));
                 }
@@ -70,10 +69,11 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
+                mShow.setInText(texts.get(position));
                 mShow.setInAlpha(1);
                 mShow.setOutAlpha(0);
                 mShow.setOutText("");
-                mShow.setInText(texts.get(position));
+
             }
 
             @Override
