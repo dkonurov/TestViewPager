@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager mPager;
 
-    private FadedTextView mShow;
+    private TextView mShow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,26 +55,30 @@ public class MainActivity extends AppCompatActivity {
                 boolean right = true;
                 if (position == mPager.getCurrentItem()) {
                     newPosition = position + 1;
+                    if (newPosition > texts.size() - 1) {
+                        newPosition = texts.size() - 1;
+                    }
                 } else {
                     right = false;
                     newPosition = position;
                 }
-                float showAlpha = right ? 1.0f - positionOffset : positionOffset;
-                float hideAlpha = right ? positionOffset : 1.0f - positionOffset;
-                mShow.setInAlpha(showAlpha);
-                mShow.setOutAlpha(hideAlpha);
-                if (newPosition < texts.size()) {
-                    mShow.setOutText(texts.get(newPosition));
+
+                float alpha = 0;
+                if (positionOffset >= 0.5f) {
+                    mShow.setText(right ? texts.get(newPosition) : texts.get(mPager.getCurrentItem()));
+                    alpha = (positionOffset - 0.5f);
+                } else {
+                    mShow.setText(right ? texts.get(mPager.getCurrentItem()) : texts.get(newPosition));
+                    alpha = 0.5f - positionOffset;
                 }
+                alpha *= 2;
+                mShow.setAlpha(alpha);
             }
 
             @Override
             public void onPageSelected(int position) {
-                mShow.setInText(texts.get(position));
-                mShow.setInAlpha(1);
-                mShow.setOutAlpha(0);
-                mShow.setOutText("");
-
+                mShow.setText(texts.get(position));
+                mShow.setAlpha(1);
             }
 
             @Override
@@ -81,10 +86,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mPager.setAdapter(adapter);
-        mShow.setInText(texts.get(mPager.getCurrentItem()));
-        int position = mPager.getCurrentItem() == texts.size() - 1 ? texts.size() : mPager.getCurrentItem() + 1;
-        mShow.setOutText(texts.get(position));
-        //        mShow.set(texts.get(position));
+        mShow.setText(texts.get(mPager.getCurrentItem()));
+        mShow.setAlpha(1);
     }
 
     public static class PagerAdapter extends android.support.v4.view.PagerAdapter {
